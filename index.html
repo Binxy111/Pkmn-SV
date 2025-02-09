@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sprite Sheet Animation</title>
+<style>
+body {
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+#container {
+  position: relative; /* Needed for absolute positioning of the canvas */
+  width: 200px;  /* Adjust to your sprite frame width */
+  height: 200px; /* Adjust to your sprite frame height */
+  overflow: hidden; /* Hide parts of the sprite outside the frame */
+}
+
+#spriteCanvas {
+  position: absolute; /* Allows for positioning within the container */
+  top: 0;
+  left: 0;
+}
+</style>
+</head>
+<body>
+
+<div id="container">
+  <canvas id="spriteCanvas" width="200" height="200"></canvas>
+</div>
+
+<script>
+const canvas = document.getElementById('spriteCanvas');
+const ctx = canvas.getContext('2d');
+const spriteSheet = new Image();
+spriteSheet.src = 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/275fa415-a513-4b1e-b1c7-f795e3983b62/dfm5q2i-f52dbc9b-e52c-4c79-bd60-52fadbfac69a.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzI3NWZhNDE1LWE1MTMtNGIxZS1iMWM3LWY3OTVlMzk4M2I2MlwvZGZtNXEyaS1mNTJkYmM5Yi1lNTJjLTRjNzktYmQ2MC01MmZhZGJmYWM2OWEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.UwFI0ffH9BXjCdc7Vp-j2EEw0nziWrSlJpLKsXcO_YE'; // Replace with your sprite sheet image path
+
+const frameWidth = 32;  // Width of each frame in the sprite sheet
+const frameHeight = 32; // Height of each frame in the sprite sheet
+const frameCount = 156;     // Number of frames in the animation
+const animationSpeed = 100; // Delay between frames in milliseconds
+let currentFrame = 0;
+
+spriteSheet.onload = () => {
+  animate();
+};
+
+function animate() {
+  setInterval(() => {
+    // Clear the canvas
+    ctx.clearRect(0, 0, frameWidth, frameHeight);
+
+    // Calculate the x-coordinate of the current frame in the sprite sheet
+    const sourceX = currentFrame * frameWidth;
+
+    // Draw the current frame
+    ctx.drawImage(
+      spriteSheet,
+      sourceX, 0, // Source coordinates (x, y) in the sprite sheet
+      frameWidth, frameHeight, // Source size (width, height)
+      0, 0, // Destination coordinates (x, y) on the canvas
+      frameWidth, frameHeight // Destination size (width, height)
+    );
+
+    currentFrame = (currentFrame + 1) % frameCount; // Cycle through frames
+  }, animationSpeed);
+}
+
+
+</script>
+
+</body>
+</html>
